@@ -134,7 +134,6 @@
             z-index: 1;
         }
 
-        /* Nút nhạc */
         #music-control {
             position: fixed;
             bottom: 20px;
@@ -156,7 +155,7 @@
 </head>
 
 <body>
-    <audio id="bgMusic" loop>
+    <audio id="bgMusic" loop preload="auto">
         <source src="https://www.bensound.com/bensound-music/bensound-cute.mp3" type="audio/mpeg">
     </audio>
 
@@ -203,14 +202,25 @@
             <div class="step" id="step5">
                 <div class="emoji">🎂</div>
                 <h2 class="text-3xl md:text-4xl font-bold mb-6 text-gradient">My Wish For You</h2>
-                <p class="text-xl font-semibold text-pink-600 mb-8">Happy Birthday, my crush! ❤️</p>
-                <button class="btn" id="confetti-btn">Celebrate!</button>
+                
+                <div id="final-messages" class="space-y-4 mb-8 hidden">
+                    <p class="text-lg text-gray-700 animate-bounce">🌟 Mong em luôn rạng rỡ như ánh mặt trời.</p>
+                    <p class="text-lg text-gray-700">💖 Mong thế giới này đối xử dịu dàng với em.</p>
+                    <p class="text-xl font-bold text-pink-600">Và mong rằng... chúng ta sẽ luôn có nhau. ❤️</p>
+                </div>
+
+                <p id="main-wish" class="text-xl font-semibold text-pink-600 mb-8">
+                    Happy Birthday, my crush! ❤️
+                </p>
+                
+                <button class="btn scale-110" id="confetti-btn">Celebrate Our Moment! ✨</button>
+                <p class="mt-8 text-gray-500">Made with ❤️ just for you</p>
             </div>
         </div>
     </div>
 
     <script>
-        // Audio Logic
+        // 1. Audio Logic
         const audio = document.getElementById('bgMusic');
         const musicBtn = document.getElementById('music-control');
         let isPlaying = false;
@@ -220,15 +230,14 @@
                 audio.pause();
                 musicBtn.innerText = "🔇";
             } else {
-                audio.play();
+                audio.play().catch(e => console.log("Audio play blocked"));
                 musicBtn.innerText = "🎵";
             }
             isPlaying = !isPlaying;
         }
-
         musicBtn.addEventListener('click', toggleMusic);
 
-        // Three.js Background (Giữ nguyên logic của bạn)
+        // 2. Three.js Background
         const container = document.getElementById('canvas-container');
         const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
@@ -236,16 +245,13 @@
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
         camera.position.z = 30;
-
-        // Thắp sáng trái tim
         const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
         scene.add(ambientLight);
         const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
         directionalLight.position.set(1, 1, 1);
         scene.add(directionalLight);
 
-        // Logic chuyển bước & Nhạc
-        let currentStep = 1;
+        // 3. Navigation & Audio Start
         function showStep(stepNumber) {
             document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
             document.getElementById(`step${stepNumber}`).classList.add('active');
@@ -253,17 +259,57 @@
         }
 
         document.getElementById('start-btn').addEventListener('click', () => {
-            if(!isPlaying) toggleMusic(); // Phát nhạc khi nhấn bắt đầu
-            currentStep = 2;
-            showStep(currentStep);
+            if(!isPlaying) toggleMusic();
+            showStep(2);
         });
-
         document.getElementById('next-btn-2').addEventListener('click', () => showStep(3));
         document.getElementById('next-btn-3').addEventListener('click', () => showStep(4));
         document.getElementById('next-btn-4').addEventListener('click', () => showStep(5));
 
-        document.getElementById('confetti-btn').addEventListener('click', () => {
-            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
+        // 4. SUPER SWEET FINALE EFFECT
+        document.getElementById('confetti-btn').addEventListener('click', function() {
+            // Hiệu ứng pháo hoa trái tim liên tục trong 5 giây
+            const duration = 5 * 1000;
+            const animationEnd = Date.now() + duration;
+
+            const interval = setInterval(function() {
+                const timeLeft = animationEnd - Date.now();
+                if (timeLeft <= 0) return clearInterval(interval);
+
+                // Bắn pháo từ 2 bên
+                confetti({
+                    particleCount: 5,
+                    angle: 60,
+                    spread: 55,
+                    origin: { x: 0 },
+                    shapes: ['heart'],
+                    colors: ['#ff69b4', '#ff0000']
+                });
+                confetti({
+                    particleCount: 5,
+                    angle: 120,
+                    spread: 55,
+                    origin: { x: 1 },
+                    shapes: ['heart'],
+                    colors: ['#ff69b4', '#ff0000']
+                });
+            }, 200);
+
+            // Hiện lời chúc ẩn
+            document.getElementById('main-wish').classList.add('hidden');
+            document.getElementById('final-messages').classList.remove('hidden');
+            
+            // Làm rực rỡ khung hình bằng GSAP
+            gsap.to("#step5", {
+                scale: 1.08,
+                duration: 1,
+                backgroundColor: "rgba(255, 255, 255, 0.9)",
+                boxShadow: "0 0 50px rgba(236, 72, 153, 0.6)"
+            });
+
+            // Đổi nội dung nút
+            this.innerText = "Yêu em nhiều hơn mỗi ngày! ❤️";
+            this.style.background = "linear-gradient(135deg, #f472b6, #db2777)";
         });
 
         function animate() {
