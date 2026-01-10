@@ -11,141 +11,94 @@
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@300;500;700&display=swap" rel="stylesheet">
     
     <style>
-        :root {
-            --primary: #ff4d6d;
-            --secondary: #ff85a1;
-        }
-        body {
-            margin: 0;
-            overflow: hidden;
-            font-family: 'Quicksand', sans-serif;
-            background: #0a0a0a; /* Dark background để trái tim phát sáng đẹp hơn */
-        }
-        #canvas-container {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 1;
-        }
+        :root { --primary: #ff4d6d; --secondary: #ff85a1; }
+        body { margin: 0; overflow: hidden; font-family: 'Quicksand', sans-serif; background: #0a0a0a; }
+        #canvas-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; }
+        
         .glass-card {
             background: rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(15px);
             border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 30px;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            display: none; /* Ẩn mặc định */
         }
-        .step {
-            position: absolute;
-            width: 90%;
-            max-width: 500px;
-            padding: 40px;
-            text-align: center;
-            opacity: 0;
-            visibility: hidden;
-            transform: scale(0.9) translateY(30px);
-            z-index: 10;
-        }
-        .step.active {
-            opacity: 1;
-            visibility: visible;
-            transform: scale(1) translateY(0);
-            transition: all 1s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
+        
+        /* Hiển thị card đầu tiên */
+        .glass-card.active { display: block; opacity: 1; z-index: 100; }
+
         .handwritten {
             font-family: 'Dancing Script', cursive;
             font-size: 3rem;
             color: var(--primary);
             text-shadow: 0 0 15px rgba(255, 77, 109, 0.3);
         }
+        
         .btn-love {
             background: linear-gradient(45deg, var(--primary), var(--secondary));
-            color: white;
-            padding: 15px 40px;
-            border-radius: 100px;
-            font-weight: bold;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            transition: all 0.3s;
-            border: none;
-            cursor: pointer;
+            color: white; padding: 15px 40px; border-radius: 100px;
+            font-weight: bold; text-transform: uppercase; letter-spacing: 2px;
+            transition: all 0.3s; border: none; cursor: pointer;
             box-shadow: 0 10px 20px rgba(255, 77, 109, 0.4);
         }
-        .btn-love:hover {
-            transform: scale(1.1) rotate(-2deg);
-            box-shadow: 0 15px 30px rgba(255, 77, 109, 0.6);
-        }
+
         #music-btn {
-            position: fixed;
-            bottom: 30px; right: 30px;
-            z-index: 100;
-            background: rgba(255, 255, 255, 0.2);
-            border: none; border-radius: 50%;
-            width: 50px; height: 50px;
-            color: white; font-size: 24px;
+            position: fixed; bottom: 30px; right: 30px; z-index: 1000;
+            background: rgba(255, 255, 255, 0.2); border: none; border-radius: 50%;
+            width: 50px; height: 50px; color: white; font-size: 24px;
             cursor: pointer; backdrop-filter: blur(5px);
         }
-        .typing-cursor {
-            display: inline-block;
-            width: 3px; height: 1.2em;
-            background: var(--primary);
-            margin-left: 5px;
-            animation: blink 0.7s infinite;
-        }
-        @keyframes blink { 50% { opacity: 0; } }
     </style>
 </head>
 <body>
 
-    <audio id="bgMusic" loop>
+    <audio id="bgMusic" loop preload="auto">
         <source src="https://www.bensound.com/bensound-music/bensound-cute.mp3" type="audio/mpeg">
     </audio>
 
     <div id="canvas-container"></div>
     <button id="music-btn">🔇</button>
 
-    <div id="app" class="flex items-center justify-center h-screen">
-        <div class="step glass-card active" id="step1">
+    <div id="app" class="flex items-center justify-center h-screen relative z-10">
+        <div class="step glass-card active p-10 max-w-md w-full text-center" id="step1">
             <div class="handwritten mb-4">Xin chào công chúa...</div>
             <p class="text-white/80 text-lg mb-8">Anh có một điều nhỏ bé muốn dành riêng cho em.</p>
             <button class="btn-love" id="btn-1">Khám phá ngay ❤️</button>
         </div>
 
-        <div class="step glass-card" id="step2">
-            <h2 class="text-3xl font-bold text-white mb-6">Happy Birthday, My Everything! 🎂</h2>
-            <p class="text-white/70 leading-relaxed mb-6">
-                Vào ngày đặc biệt này, anh chỉ muốn nói rằng em là món quà tuyệt vời nhất mà cuộc đời đã tặng cho anh.
-            </p>
+        <div class="step glass-card p-10 max-w-md w-full text-center" id="step2">
+            <h2 class="text-3xl font-bold text-white mb-6 text-gradient">Happy Birthday, My Everything! 🎂</h2>
+            <p class="text-white/70 leading-relaxed mb-6">Vào ngày đặc biệt này, anh chỉ muốn nói rằng em là món quà tuyệt vời nhất mà cuộc đời đã tặng cho anh.</p>
             <button class="btn-love" id="btn-2">Tiếp tục nào ✨</button>
         </div>
 
-        <div class="step glass-card" id="step3">
+        <div class="step glass-card p-10 max-w-md w-full text-center" id="step3">
             <h2 class="text-2xl font-bold text-white mb-8 italic">Tại sao em lại đặc biệt đến thế?</h2>
-            <div class="grid grid-cols-2 gap-4">
-                <div class="p-4 bg-white/5 rounded-2xl border border-white/10 text-white">💖 Sự dịu dàng</div>
-                <div class="p-4 bg-white/5 rounded-2xl border border-white/10 text-white">😊 Nụ cười toả nắng</div>
-                <div class="p-4 bg-white/5 rounded-2xl border border-white/10 text-white">🌟 Cách em quan tâm</div>
-                <div class="p-4 bg-white/5 rounded-2xl border border-white/10 text-white">🔥 Và vì... là chính em</div>
+            <div class="grid grid-cols-2 gap-4 text-white">
+                <div class="p-4 bg-white/5 rounded-2xl border border-white/10">💖 Sự dịu dàng</div>
+                <div class="p-4 bg-white/5 rounded-2xl border border-white/10">😊 Nụ cười</div>
+                <div class="p-4 bg-white/5 rounded-2xl border border-white/10">🌟 Cách em quan tâm</div>
+                <div class="p-4 bg-white/5 rounded-2xl border border-white/10">🔥 Là chính em</div>
             </div>
             <button class="btn-love mt-8" id="btn-3">Một bất ngờ cuối... 🎁</button>
         </div>
 
-        <div class="step glass-card" id="step4">
+        <div class="step glass-card p-10 max-w-md w-full text-center" id="step4">
             <div class="handwritten mb-6">Gửi tới người anh thương...</div>
             <div id="typing-text" class="text-white text-xl leading-loose min-h-[150px]"></div>
-            <button class="btn-love mt-8 opacity-0" id="final-btn">Celebrate Our Love! 🥂</button>
+            <button class="btn-love mt-8" id="final-btn" style="display: none;">Celebrate Our Love! 🥂</button>
         </div>
     </div>
 
     <script>
-        // 1. Three.js Background với Trái tim phát sáng
+        // 1. Three.js - Trái tim bay 
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
         const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
         document.getElementById('canvas-container').appendChild(renderer.domElement);
-
         camera.position.z = 30;
 
-        // Tạo Particle Trái tim
         const heartShape = new THREE.Shape();
         heartShape.moveTo(0, 0);
         heartShape.bezierCurveTo(0, 0, -1, 1, -2, 1);
@@ -156,17 +109,13 @@
         heartShape.bezierCurveTo(1, 1, 0, 0, 0, 0);
 
         const hearts = [];
-        for(let i=0; i<30; i++) {
+        for(let i=0; i<40; i++) {
             const geo = new THREE.ShapeGeometry(heartShape);
-            const mat = new THREE.MeshBasicMaterial({ 
-                color: Math.random() > 0.5 ? 0xff4d6d : 0xff85a1,
-                transparent: true,
-                opacity: 0.6
-            });
+            const mat = new THREE.MeshBasicMaterial({ color: Math.random() > 0.5 ? 0xff4d6d : 0xffb3c1, transparent: true, opacity: 0.5 });
             const mesh = new THREE.Mesh(geo, mat);
             mesh.position.set(Math.random()*100-50, Math.random()*100-50, Math.random()*50-25);
             mesh.rotation.z = Math.PI;
-            mesh.scale.set(0.5, 0.5, 0.5);
+            mesh.scale.set(0.4, 0.4, 0.4);
             scene.add(mesh);
             hearts.push(mesh);
         }
@@ -182,16 +131,36 @@
         }
         animate();
 
-        // 2. Logic điều khiển
+        // 2. Logic điều khiển chính
         const audio = document.getElementById('bgMusic');
         const musicBtn = document.getElementById('music-btn');
         let isMusicPlaying = false;
 
-        function playMusic() {
-            audio.play();
-            musicBtn.innerText = "🎵";
-            isMusicPlaying = true;
+        function showStep(currentId, nextId) {
+            const current = document.getElementById(currentId);
+            const next = document.getElementById(nextId);
+            
+            gsap.to(current, { opacity: 0, scale: 0.8, duration: 0.5, onComplete: () => {
+                current.style.display = 'none';
+                next.style.display = 'block';
+                gsap.fromTo(next, { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.8 });
+            }});
         }
+
+        // Bắt đầu - Kích hoạt nhạc ở đây
+        document.getElementById('btn-1').onclick = () => {
+            audio.play().then(() => {
+                isMusicPlaying = true;
+                musicBtn.innerText = "🎵";
+            }).catch(e => console.log("Audio play blocked"));
+            showStep('step1', 'step2');
+        };
+
+        document.getElementById('btn-2').onclick = () => showStep('step2', 'step3');
+        document.getElementById('btn-3').onclick = () => {
+            showStep('step3', 'step4');
+            startTyping();
+        };
 
         musicBtn.onclick = () => {
             if(isMusicPlaying) { audio.pause(); musicBtn.innerText = "🔇"; }
@@ -199,14 +168,51 @@
             isMusicPlaying = !isMusicPlaying;
         };
 
-        function showStep(id) {
-            document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
-            setTimeout(() => {
-                document.getElementById(id).classList.add('active');
-            }, 100);
+        // 3. Hiệu ứng gõ chữ
+        const messages = [
+            "Chúc em tuổi mới thật nhiều niềm vui và hạnh phúc ❤️",
+            "Cảm ơn em vì đã đến và làm thế giới của anh trở nên rạng rỡ hơn.",
+            "Chúc mừng sinh nhật công chúa của anh! 🎂✨"
+        ];
+
+        function startTyping() {
+            let line = 0; let char = 0;
+            const target = document.getElementById('typing-text');
+            function type() {
+                if (line < messages.length) {
+                    if (char < messages[line].length) {
+                        target.innerHTML += messages[line].charAt(char);
+                        char++; setTimeout(type, 60);
+                    } else {
+                        target.innerHTML += "<br><br>";
+                        line++; char = 0; setTimeout(type, 700);
+                    }
+                } else {
+                    const finalBtn = document.getElementById('final-btn');
+                    finalBtn.style.display = 'inline-block';
+                    gsap.from(finalBtn, { opacity: 0, y: 20, duration: 1 });
+                }
+            }
+            setTimeout(type, 500);
         }
 
-        document.getElementById('btn-1').onclick = () => { playMusic(); showStep('step2'); };
-        document.getElementById('btn-2').onclick = () => showStep('step3');
-        document.getElementById('btn-3').onclick = () => {
-            show
+        // 4. Pháo hoa trái tim
+        document.getElementById('final-btn').onclick = function() {
+            const end = Date.now() + (10 * 1000);
+            (function frame() {
+                confetti({ particleCount: 3, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#ff4d6d', '#ffffff'], shapes: ['heart'] });
+                confetti({ particleCount: 3, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#ff4d6d', '#ffffff'], shapes: ['heart'] });
+                if (Date.now() < end) requestAnimationFrame(frame);
+            }());
+            this.innerText = "YÊU EM MÃI MÃI! ❤️";
+            gsap.to(this, { scale: 1.2, duration: 0.5, yoyo: true, repeat: -1 });
+        };
+
+        window.onresize = () => {
+            camera.aspect = window.innerWidth/window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        };
+    </script>
+</body>
+</html>
