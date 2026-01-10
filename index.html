@@ -1,328 +1,212 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>For Someone Special ❤️</title>
+    <title>For My Forever Love ❤️</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@300;500;700&display=swap" rel="stylesheet">
+    
     <style>
+        :root {
+            --primary: #ff4d6d;
+            --secondary: #ff85a1;
+        }
         body {
             margin: 0;
             overflow: hidden;
-            font-family: 'Inter', sans-serif;
-            height: 100vh;
-            touch-action: manipulation;
-            background: linear-gradient(135deg, #f9a8d4, #f3e8ff);
+            font-family: 'Quicksand', sans-serif;
+            background: #0a0a0a; /* Dark background để trái tim phát sáng đẹp hơn */
         }
-
-        #app {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-        }
-
-        #content {
-            position: relative;
-            z-index: 10;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-
-        .step {
-            position: absolute;
-            width: 100%;
-            max-width: 800px;
-            padding: 40px;
-            background: rgba(255, 255, 255, 0.509);
-            backdrop-filter: blur(10px);
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-            pointer-events: none;
-        }
-
-        .step.active {
-            opacity: 1;
-            transform: translateY(0);
-            pointer-events: all;
-        }
-
-        .btn {
-            background: linear-gradient(135deg, #ec4899, #f43f5e);
-            color: white;
-            border: none;
-            padding: 12px 24px;
-            border-radius: 50px;
-            font-weight: 600;
-            cursor: pointer;
-            margin-top: 20px;
-            box-shadow: 0 4px 15px rgba(236, 72, 153, 0.3);
-            transition: all 0.3s ease;
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(236, 72, 153, 0.4);
-        }
-
-        .text-gradient {
-            background: linear-gradient(135deg, #ec4899, #f43f5e, #f59e0b);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-
-        .heart-beat {
-            animation: heartbeat 1.5s ease-in-out infinite;
-        }
-
-        @keyframes heartbeat {
-            0% { transform: scale(1); }
-            25% { transform: scale(1.1); }
-            50% { transform: scale(1); }
-            75% { transform: scale(1.1); }
-            100% { transform: scale(1); }
-        }
-
-        .emoji {
-            font-size: 3rem;
-            margin-bottom: 20px;
-            display: inline-block;
-        }
-
-        #progress-container {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 80%;
-            max-width: 400px;
-            height: 6px;
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 3px;
-            z-index: 100;
-        }
-
-        #progress-bar {
-            height: 100%;
-            width: 0%;
-            background: linear-gradient(90deg, #ec4899, #f43f5e);
-            border-radius: 3px;
-            transition: width 0.5s ease;
-        }
-
         #canvas-container {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0; width: 100%; height: 100%;
             z-index: 1;
         }
-
-        #music-control {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 1000;
-            background: rgba(255, 255, 255, 0.7);
-            border-radius: 50%;
-            width: 45px;
-            height: 45px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            border: none;
-            font-size: 20px;
+        .glass-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 30px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
         }
+        .step {
+            position: absolute;
+            width: 90%;
+            max-width: 500px;
+            padding: 40px;
+            text-align: center;
+            opacity: 0;
+            visibility: hidden;
+            transform: scale(0.9) translateY(30px);
+            z-index: 10;
+        }
+        .step.active {
+            opacity: 1;
+            visibility: visible;
+            transform: scale(1) translateY(0);
+            transition: all 1s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .handwritten {
+            font-family: 'Dancing Script', cursive;
+            font-size: 3rem;
+            color: var(--primary);
+            text-shadow: 0 0 15px rgba(255, 77, 109, 0.3);
+        }
+        .btn-love {
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 15px 40px;
+            border-radius: 100px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(255, 77, 109, 0.4);
+        }
+        .btn-love:hover {
+            transform: scale(1.1) rotate(-2deg);
+            box-shadow: 0 15px 30px rgba(255, 77, 109, 0.6);
+        }
+        #music-btn {
+            position: fixed;
+            bottom: 30px; right: 30px;
+            z-index: 100;
+            background: rgba(255, 255, 255, 0.2);
+            border: none; border-radius: 50%;
+            width: 50px; height: 50px;
+            color: white; font-size: 24px;
+            cursor: pointer; backdrop-filter: blur(5px);
+        }
+        .typing-cursor {
+            display: inline-block;
+            width: 3px; height: 1.2em;
+            background: var(--primary);
+            margin-left: 5px;
+            animation: blink 0.7s infinite;
+        }
+        @keyframes blink { 50% { opacity: 0; } }
     </style>
 </head>
-
 <body>
-    <audio id="bgMusic" loop preload="auto">
+
+    <audio id="bgMusic" loop>
         <source src="https://www.bensound.com/bensound-music/bensound-cute.mp3" type="audio/mpeg">
     </audio>
 
-    <button id="music-control">🔇</button>
+    <div id="canvas-container"></div>
+    <button id="music-btn">🔇</button>
 
-    <div id="app">
-        <div id="canvas-container"></div>
-        <div id="progress-container">
-            <div id="progress-bar"></div>
+    <div id="app" class="flex items-center justify-center h-screen">
+        <div class="step glass-card active" id="step1">
+            <div class="handwritten mb-4">Xin chào công chúa...</div>
+            <p class="text-white/80 text-lg mb-8">Anh có một điều nhỏ bé muốn dành riêng cho em.</p>
+            <button class="btn-love" id="btn-1">Khám phá ngay ❤️</button>
         </div>
 
-        <div id="content">
-            <div class="step active" id="step1">
-                <div class="emoji heart-beat">❤️</div>
-                <h1 class="text-4xl md:text-5xl font-bold mb-6 text-gradient">Hey Beautiful</h1>
-                <p class="text-xl text-gray-700 mb-8">I made something special for you...</p>
-                <button class="btn" id="start-btn">Let's Begin</button>
-            </div>
+        <div class="step glass-card" id="step2">
+            <h2 class="text-3xl font-bold text-white mb-6">Happy Birthday, My Everything! 🎂</h2>
+            <p class="text-white/70 leading-relaxed mb-6">
+                Vào ngày đặc biệt này, anh chỉ muốn nói rằng em là món quà tuyệt vời nhất mà cuộc đời đã tặng cho anh.
+            </p>
+            <button class="btn-love" id="btn-2">Tiếp tục nào ✨</button>
+        </div>
 
-            <div class="step" id="step2">
-                <div class="emoji">🎉</div>
-                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-gradient">Happy Birthday!</h2>
-                <p class="text-lg text-gray-700 mb-6">On your special day, I want you to know how amazing you are.</p>
-                <button class="btn" id="next-btn-2">What makes you special?</button>
+        <div class="step glass-card" id="step3">
+            <h2 class="text-2xl font-bold text-white mb-8 italic">Tại sao em lại đặc biệt đến thế?</h2>
+            <div class="grid grid-cols-2 gap-4">
+                <div class="p-4 bg-white/5 rounded-2xl border border-white/10 text-white">💖 Sự dịu dàng</div>
+                <div class="p-4 bg-white/5 rounded-2xl border border-white/10 text-white">😊 Nụ cười toả nắng</div>
+                <div class="p-4 bg-white/5 rounded-2xl border border-white/10 text-white">🌟 Cách em quan tâm</div>
+                <div class="p-4 bg-white/5 rounded-2xl border border-white/10 text-white">🔥 Và vì... là chính em</div>
             </div>
+            <button class="btn-love mt-8" id="btn-3">Một bất ngờ cuối... 🎁</button>
+        </div>
 
-            <div class="step" id="step3">
-                <h2 class="text-3xl md:text-4xl font-bold mb-8 text-gradient">Here's why you're incredible</h2>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-                    <div class="bg-white p-4 rounded-xl shadow-sm">✨ Kindness</div>
-                    <div class="bg-white p-4 rounded-xl shadow-sm">😊 Smile</div>
-                    <div class="bg-white p-4 rounded-xl shadow-sm">🌟 Spirit</div>
-                </div>
-                <button class="btn" id="next-btn-3">A Little Surprise</button>
-            </div>
-
-            <div class="step" id="step4">
-                <div class="emoji">📸</div>
-                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-gradient">Remember When...</h2>
-                <p class="italic mb-6">(Imagine our favorite memory together here)</p>
-                <button class="btn" id="next-btn-4">One Last Thing</button>
-            </div>
-
-            <div class="step" id="step5">
-                <div class="emoji">🎂</div>
-                <h2 class="text-3xl md:text-4xl font-bold mb-6 text-gradient">My Wish For You</h2>
-                
-                <div id="final-messages" class="space-y-4 mb-8 hidden">
-                    <p class="text-lg text-gray-700 animate-bounce">🌟 Mong em luôn rạng rỡ như ánh mặt trời.</p>
-                    <p class="text-lg text-gray-700">💖 Mong thế giới này đối xử dịu dàng với em.</p>
-                    <p class="text-xl font-bold text-pink-600">Và mong rằng... chúng ta sẽ luôn có nhau. ❤️</p>
-                </div>
-
-                <p id="main-wish" class="text-xl font-semibold text-pink-600 mb-8">
-                    Happy Birthday, my crush! ❤️
-                </p>
-                
-                <button class="btn scale-110" id="confetti-btn">Celebrate Our Moment! ✨</button>
-                <p class="mt-8 text-gray-500">Made with ❤️ just for you</p>
-            </div>
+        <div class="step glass-card" id="step4">
+            <div class="handwritten mb-6">Gửi tới người anh thương...</div>
+            <div id="typing-text" class="text-white text-xl leading-loose min-h-[150px]"></div>
+            <button class="btn-love mt-8 opacity-0" id="final-btn">Celebrate Our Love! 🥂</button>
         </div>
     </div>
 
     <script>
-        // 1. Audio Logic
-        const audio = document.getElementById('bgMusic');
-        const musicBtn = document.getElementById('music-control');
-        let isPlaying = false;
-
-        function toggleMusic() {
-            if (isPlaying) {
-                audio.pause();
-                musicBtn.innerText = "🔇";
-            } else {
-                audio.play().catch(e => console.log("Audio play blocked"));
-                musicBtn.innerText = "🎵";
-            }
-            isPlaying = !isPlaying;
-        }
-        musicBtn.addEventListener('click', toggleMusic);
-
-        // 2. Three.js Background
-        const container = document.getElementById('canvas-container');
+        // 1. Three.js Background với Trái tim phát sáng
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
         const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
-        container.appendChild(renderer.domElement);
-        const scene = new THREE.Scene();
-        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        document.getElementById('canvas-container').appendChild(renderer.domElement);
+
         camera.position.z = 30;
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-        scene.add(ambientLight);
-        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
-        directionalLight.position.set(1, 1, 1);
-        scene.add(directionalLight);
 
-        // 3. Navigation & Audio Start
-        function showStep(stepNumber) {
-            document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
-            document.getElementById(`step${stepNumber}`).classList.add('active');
-            document.getElementById('progress-bar').style.width = `${((stepNumber - 1) / 4) * 100}%`;
-        }
+        // Tạo Particle Trái tim
+        const heartShape = new THREE.Shape();
+        heartShape.moveTo(0, 0);
+        heartShape.bezierCurveTo(0, 0, -1, 1, -2, 1);
+        heartShape.bezierCurveTo(-4, 1, -4, -1.5, -4, -1.5);
+        heartShape.bezierCurveTo(-4, -3, -2, -5, 0, -7);
+        heartShape.bezierCurveTo(2, -5, 4, -3, 4, -1.5);
+        heartShape.bezierCurveTo(4, -1.5, 4, 1, 2, 1);
+        heartShape.bezierCurveTo(1, 1, 0, 0, 0, 0);
 
-        document.getElementById('start-btn').addEventListener('click', () => {
-            if(!isPlaying) toggleMusic();
-            showStep(2);
-        });
-        document.getElementById('next-btn-2').addEventListener('click', () => showStep(3));
-        document.getElementById('next-btn-3').addEventListener('click', () => showStep(4));
-        document.getElementById('next-btn-4').addEventListener('click', () => showStep(5));
-
-        // 4. SUPER SWEET FINALE EFFECT
-        document.getElementById('confetti-btn').addEventListener('click', function() {
-            // Hiệu ứng pháo hoa trái tim liên tục trong 5 giây
-            const duration = 5 * 1000;
-            const animationEnd = Date.now() + duration;
-
-            const interval = setInterval(function() {
-                const timeLeft = animationEnd - Date.now();
-                if (timeLeft <= 0) return clearInterval(interval);
-
-                // Bắn pháo từ 2 bên
-                confetti({
-                    particleCount: 5,
-                    angle: 60,
-                    spread: 55,
-                    origin: { x: 0 },
-                    shapes: ['heart'],
-                    colors: ['#ff69b4', '#ff0000']
-                });
-                confetti({
-                    particleCount: 5,
-                    angle: 120,
-                    spread: 55,
-                    origin: { x: 1 },
-                    shapes: ['heart'],
-                    colors: ['#ff69b4', '#ff0000']
-                });
-            }, 200);
-
-            // Hiện lời chúc ẩn
-            document.getElementById('main-wish').classList.add('hidden');
-            document.getElementById('final-messages').classList.remove('hidden');
-            
-            // Làm rực rỡ khung hình bằng GSAP
-            gsap.to("#step5", {
-                scale: 1.08,
-                duration: 1,
-                backgroundColor: "rgba(255, 255, 255, 0.9)",
-                boxShadow: "0 0 50px rgba(236, 72, 153, 0.6)"
+        const hearts = [];
+        for(let i=0; i<30; i++) {
+            const geo = new THREE.ShapeGeometry(heartShape);
+            const mat = new THREE.MeshBasicMaterial({ 
+                color: Math.random() > 0.5 ? 0xff4d6d : 0xff85a1,
+                transparent: true,
+                opacity: 0.6
             });
-
-            // Đổi nội dung nút
-            this.innerText = "Yêu em nhiều hơn mỗi ngày! ❤️";
-            this.style.background = "linear-gradient(135deg, #f472b6, #db2777)";
-        });
+            const mesh = new THREE.Mesh(geo, mat);
+            mesh.position.set(Math.random()*100-50, Math.random()*100-50, Math.random()*50-25);
+            mesh.rotation.z = Math.PI;
+            mesh.scale.set(0.5, 0.5, 0.5);
+            scene.add(mesh);
+            hearts.push(mesh);
+        }
 
         function animate() {
             requestAnimationFrame(animate);
+            hearts.forEach(h => {
+                h.position.y += 0.05;
+                if(h.position.y > 30) h.position.y = -30;
+                h.rotation.y += 0.02;
+            });
             renderer.render(scene, camera);
         }
         animate();
 
-        window.addEventListener('resize', () => {
-            camera.aspect = window.innerWidth / window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
-        });
-    </script>
-</body>
-</html>
+        // 2. Logic điều khiển
+        const audio = document.getElementById('bgMusic');
+        const musicBtn = document.getElementById('music-btn');
+        let isMusicPlaying = false;
+
+        function playMusic() {
+            audio.play();
+            musicBtn.innerText = "🎵";
+            isMusicPlaying = true;
+        }
+
+        musicBtn.onclick = () => {
+            if(isMusicPlaying) { audio.pause(); musicBtn.innerText = "🔇"; }
+            else { audio.play(); musicBtn.innerText = "🎵"; }
+            isMusicPlaying = !isMusicPlaying;
+        };
+
+        function showStep(id) {
+            document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+            setTimeout(() => {
+                document.getElementById(id).classList.add('active');
+            }, 100);
+        }
+
+        document.getElementById('btn-1').onclick = () => { playMusic(); showStep('step2'); };
+        document.getElementById('btn-2').onclick = () => showStep('step3');
+        document.getElementById('btn-3').onclick = () => {
+            show
