@@ -21,77 +21,84 @@
             border: 1px solid rgba(255, 255, 255, 0.2);
             border-radius: 30px;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-            display: none; /* Ẩn mặc định */
+            display: none;
         }
         
-        /* Hiển thị card đầu tiên */
         .glass-card.active { display: block; opacity: 1; z-index: 100; }
-
-        .handwritten {
-            font-family: 'Dancing Script', cursive;
-            font-size: 3rem;
-            color: var(--primary);
-            text-shadow: 0 0 15px rgba(255, 77, 109, 0.3);
-        }
+        .handwritten { font-family: 'Dancing Script', cursive; font-size: 3rem; color: var(--primary); }
         
         .btn-love {
             background: linear-gradient(45deg, var(--primary), var(--secondary));
-            color: white; padding: 15px 40px; border-radius: 100px;
-            font-weight: bold; text-transform: uppercase; letter-spacing: 2px;
-            transition: all 0.3s; border: none; cursor: pointer;
-            box-shadow: 0 10px 20px rgba(255, 77, 109, 0.4);
+            color: white; padding: 12px 35px; border-radius: 100px;
+            font-weight: bold; text-transform: uppercase; cursor: pointer; border: none;
         }
 
-        #music-btn {
-            position: fixed; bottom: 30px; right: 30px; z-index: 1000;
-            background: rgba(255, 255, 255, 0.2); border: none; border-radius: 50%;
-            width: 50px; height: 50px; color: white; font-size: 24px;
-            cursor: pointer; backdrop-filter: blur(5px);
+        #rabbit-gift {
+            position: absolute; bottom: -200px; left: 50%;
+            transform: translateX(-50%); z-index: 200;
+            transition: all 1s ease-out; width: 150px;
+        }
+
+        input {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--secondary);
+            color: white; padding: 10px; border-radius: 10px;
+            text-align: center; font-size: 1.2rem; outline: none;
         }
     </style>
 </head>
 <body>
 
-    <audio id="bgMusic" loop preload="auto">
+    <audio id="bgMusic" loop>
         <source src="https://www.bensound.com/bensound-music/bensound-cute.mp3" type="audio/mpeg">
     </audio>
 
     <div id="canvas-container"></div>
-    <button id="music-btn">🔇</button>
 
     <div id="app" class="flex items-center justify-center h-screen relative z-10">
-        <div class="step glass-card active p-10 max-w-md w-full text-center" id="step1">
+        <div class="step glass-card active p-10 max-w-sm w-full text-center" id="step0">
+            <div class="emoji text-4xl mb-4">🔐</div>
+            <h2 class="text-white text-xl mb-6">Nhập mã bí mật để mở món quà...</h2>
+            <input type="password" id="passInput" placeholder="Ngày sinh (8 chữ số)" class="w-full mb-4">
+            <p id="error-msg" class="text-red-400 text-sm hidden mb-4">Sai rồi nè, thử lại đi công chúa!</p>
+            <button class="btn-love" id="btn-unlock">Mở khoá ❤️</button>
+        </div>
+
+        <div class="step glass-card p-10 max-w-md w-full text-center" id="step1">
             <div class="handwritten mb-4">Xin chào công chúa...</div>
             <p class="text-white/80 text-lg mb-8">Anh có một điều nhỏ bé muốn dành riêng cho em.</p>
             <button class="btn-love" id="btn-1">Khám phá ngay ❤️</button>
         </div>
 
         <div class="step glass-card p-10 max-w-md w-full text-center" id="step2">
-            <h2 class="text-3xl font-bold text-white mb-6 text-gradient">Happy Birthday, My Everything! 🎂</h2>
-            <p class="text-white/70 leading-relaxed mb-6">Vào ngày đặc biệt này, anh chỉ muốn nói rằng em là món quà tuyệt vời nhất mà cuộc đời đã tặng cho anh.</p>
+            <h2 class="text-3xl font-bold text-white mb-6">Happy Birthday, My Everything! 🎂</h2>
+            <p class="text-white/70 mb-6">Chúc mừng sinh nhật cô gái 12/01/2006 của anh!</p>
             <button class="btn-love" id="btn-2">Tiếp tục nào ✨</button>
         </div>
 
         <div class="step glass-card p-10 max-w-md w-full text-center" id="step3">
-            <h2 class="text-2xl font-bold text-white mb-8 italic">Tại sao em lại đặc biệt đến thế?</h2>
+            <h2 class="text-2xl font-bold text-white mb-8 italic">Điều gì khiến em đặc biệt?</h2>
             <div class="grid grid-cols-2 gap-4 text-white">
-                <div class="p-4 bg-white/5 rounded-2xl border border-white/10">💖 Sự dịu dàng</div>
+                <div class="p-4 bg-white/5 rounded-2xl border border-white/10">💖 Dịu dàng</div>
                 <div class="p-4 bg-white/5 rounded-2xl border border-white/10">😊 Nụ cười</div>
-                <div class="p-4 bg-white/5 rounded-2xl border border-white/10">🌟 Cách em quan tâm</div>
-                <div class="p-4 bg-white/5 rounded-2xl border border-white/10">🔥 Là chính em</div>
             </div>
-            <button class="btn-love mt-8" id="btn-3">Một bất ngờ cuối... 🎁</button>
+            <button class="btn-love mt-8" id="btn-3">Bất ngờ cuối... 🎁</button>
         </div>
 
         <div class="step glass-card p-10 max-w-md w-full text-center" id="step4">
             <div class="handwritten mb-6">Gửi tới người anh thương...</div>
-            <div id="typing-text" class="text-white text-xl leading-loose min-h-[150px]"></div>
-            <button class="btn-love mt-8" id="final-btn" style="display: none;">Celebrate Our Love! 🥂</button>
+            <div id="typing-text" class="text-white text-xl leading-loose min-h-[120px]"></div>
+            <button class="btn-love mt-8" id="final-btn" style="display: none;">Yêu em mãi mãi! ❤️</button>
+        </div>
+
+        <div id="rabbit-gift">
+            <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHpueWtzZndzNXp3bmpsZnZidW9scXF6bmZ2ZzB6Z3Z6Z3Z6Z3Z6JmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1z/v06K28H151P2/giphy.gif" alt="Rabbit with chocolate">
+            <p class="text-pink-400 font-bold text-center mt-2 bg-white/80 rounded-lg">Socola tặng em! 🍫</p>
         </div>
     </div>
 
     <script>
-        // 1. Three.js - Trái tim bay 
+        // 1. Three.js Background (Trái tim bay)
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
         const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
@@ -100,118 +107,84 @@
         camera.position.z = 30;
 
         const heartShape = new THREE.Shape();
-        heartShape.moveTo(0, 0);
-        heartShape.bezierCurveTo(0, 0, -1, 1, -2, 1);
-        heartShape.bezierCurveTo(-4, 1, -4, -1.5, -4, -1.5);
-        heartShape.bezierCurveTo(-4, -3, -2, -5, 0, -7);
-        heartShape.bezierCurveTo(2, -5, 4, -3, 4, -1.5);
-        heartShape.bezierCurveTo(4, -1.5, 4, 1, 2, 1);
-        heartShape.bezierCurveTo(1, 1, 0, 0, 0, 0);
-
+        heartShape.moveTo(0,0); heartShape.bezierCurveTo(0,0,-1,1,-2,1); heartShape.bezierCurveTo(-4,1,-4,-1.5,-4,-1.5);
+        heartShape.bezierCurveTo(-4,-3,-2,-5,0,-7); heartShape.bezierCurveTo(2,-5,4,-3,4,-1.5); heartShape.bezierCurveTo(4,-1.5,4,1,2,1);
         const hearts = [];
-        for(let i=0; i<40; i++) {
-            const geo = new THREE.ShapeGeometry(heartShape);
-            const mat = new THREE.MeshBasicMaterial({ color: Math.random() > 0.5 ? 0xff4d6d : 0xffb3c1, transparent: true, opacity: 0.5 });
-            const mesh = new THREE.Mesh(geo, mat);
-            mesh.position.set(Math.random()*100-50, Math.random()*100-50, Math.random()*50-25);
-            mesh.rotation.z = Math.PI;
-            mesh.scale.set(0.4, 0.4, 0.4);
-            scene.add(mesh);
-            hearts.push(mesh);
+        for(let i=0; i<35; i++){
+            const mesh = new THREE.Mesh(new THREE.ShapeGeometry(heartShape), new THREE.MeshBasicMaterial({ color: 0xff4d6d, transparent: true, opacity: 0.4 }));
+            mesh.position.set(Math.random()*80-40, Math.random()*80-40, Math.random()*40-20);
+            mesh.rotation.z = Math.PI; mesh.scale.set(0.4, 0.4, 0.4);
+            scene.add(mesh); hearts.push(mesh);
         }
 
         function animate() {
             requestAnimationFrame(animate);
-            hearts.forEach(h => {
-                h.position.y += 0.05;
-                if(h.position.y > 30) h.position.y = -30;
-                h.rotation.y += 0.02;
-            });
+            hearts.forEach(h => { h.position.y += 0.05; if(h.position.y > 30) h.position.y = -30; });
             renderer.render(scene, camera);
         }
         animate();
 
-        // 2. Logic điều khiển chính
-        const audio = document.getElementById('bgMusic');
-        const musicBtn = document.getElementById('music-btn');
-        let isMusicPlaying = false;
-
+        // 2. Logic chính
         function showStep(currentId, nextId) {
-            const current = document.getElementById(currentId);
+            const curr = document.getElementById(currentId);
             const next = document.getElementById(nextId);
-            
-            gsap.to(current, { opacity: 0, scale: 0.8, duration: 0.5, onComplete: () => {
-                current.style.display = 'none';
+            gsap.to(curr, { opacity: 0, scale: 0.8, duration: 0.5, onComplete: () => {
+                curr.style.display = 'none';
                 next.style.display = 'block';
                 gsap.fromTo(next, { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.8 });
             }});
         }
 
-        // Bắt đầu - Kích hoạt nhạc ở đây
+        // Check Password
+        document.getElementById('btn-unlock').onclick = () => {
+            const pass = document.getElementById('passInput').value;
+            if(pass === "12012006") {
+                showStep('step0', 'step1');
+            } else {
+                document.getElementById('error-msg').classList.remove('hidden');
+                gsap.fromTo("#step0", { x: -10 }, { x: 10, duration: 0.1, repeat: 5, yoyo: true });
+            }
+        };
+
+        // Điều hướng
         document.getElementById('btn-1').onclick = () => {
-            audio.play().then(() => {
-                isMusicPlaying = true;
-                musicBtn.innerText = "🎵";
-            }).catch(e => console.log("Audio play blocked"));
+            document.getElementById('bgMusic').play();
             showStep('step1', 'step2');
         };
-
         document.getElementById('btn-2').onclick = () => showStep('step2', 'step3');
-        document.getElementById('btn-3').onclick = () => {
-            showStep('step3', 'step4');
-            startTyping();
-        };
+        document.getElementById('btn-3').onclick = () => { showStep('step3', 'step4'); startTyping(); };
 
-        musicBtn.onclick = () => {
-            if(isMusicPlaying) { audio.pause(); musicBtn.innerText = "🔇"; }
-            else { audio.play(); musicBtn.innerText = "🎵"; }
-            isMusicPlaying = !isMusicPlaying;
-        };
-
-        // 3. Hiệu ứng gõ chữ
-        const messages = [
-            "Chúc em tuổi mới thật nhiều niềm vui và hạnh phúc ❤️",
-            "Cảm ơn em vì đã đến và làm thế giới của anh trở nên rạng rỡ hơn.",
-            "Chúc mừng sinh nhật công chúa của anh! 🎂✨"
-        ];
-
+        // Typing Effect
         function startTyping() {
-            let line = 0; let char = 0;
-            const target = document.getElementById('typing-text');
+            const msgs = ["Chúc mừng sinh nhật tình yêu của anh! ❤️", "Cảm ơn em vì đã đến...", "Anh sẽ luôn ở đây bên cạnh em."];
+            let l = 0, c = 0; const t = document.getElementById('typing-text');
             function type() {
-                if (line < messages.length) {
-                    if (char < messages[line].length) {
-                        target.innerHTML += messages[line].charAt(char);
-                        char++; setTimeout(type, 60);
-                    } else {
-                        target.innerHTML += "<br><br>";
-                        line++; char = 0; setTimeout(type, 700);
-                    }
+                if(l < msgs.length) {
+                    if(c < msgs[l].length) { t.innerHTML += msgs[l].charAt(c); c++; setTimeout(type, 60); }
+                    else { t.innerHTML += "<br>"; l++; c=0; setTimeout(type, 700); }
                 } else {
-                    const finalBtn = document.getElementById('final-btn');
-                    finalBtn.style.display = 'inline-block';
-                    gsap.from(finalBtn, { opacity: 0, y: 20, duration: 1 });
+                    document.getElementById('final-btn').style.display = 'inline-block';
                 }
             }
-            setTimeout(type, 500);
+            type();
         }
 
-        // 4. Pháo hoa trái tim
+        // 3. KẾT THÚC: Thỏ tặng quà
         document.getElementById('final-btn').onclick = function() {
-            const end = Date.now() + (10 * 1000);
+            // Hiệu ứng pháo hoa
+            const end = Date.now() + 5000;
             (function frame() {
-                confetti({ particleCount: 3, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#ff4d6d', '#ffffff'], shapes: ['heart'] });
-                confetti({ particleCount: 3, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#ff4d6d', '#ffffff'], shapes: ['heart'] });
+                confetti({ particleCount: 3, angle: 60, spread: 55, origin: { x: 0 }, shapes: ['heart'] });
+                confetti({ particleCount: 3, angle: 120, spread: 55, origin: { x: 1 }, shapes: ['heart'] });
                 if (Date.now() < end) requestAnimationFrame(frame);
             }());
-            this.innerText = "YÊU EM MÃI MÃI! ❤️";
-            gsap.to(this, { scale: 1.2, duration: 0.5, yoyo: true, repeat: -1 });
-        };
 
-        window.onresize = () => {
-            camera.aspect = window.innerWidth/window.innerHeight;
-            camera.updateProjectionMatrix();
-            renderer.setSize(window.innerWidth, window.innerHeight);
+            // Thỏ xuất hiện
+            const rabbit = document.getElementById('rabbit-gift');
+            rabbit.style.bottom = "10%";
+            
+            this.innerText = "CHÚC MỪNG SINH NHẬT EM! ❤️";
+            gsap.to(this, { scale: 1.1, repeat: -1, yoyo: true });
         };
     </script>
 </body>
