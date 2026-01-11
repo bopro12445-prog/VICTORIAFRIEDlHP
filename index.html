@@ -53,34 +53,24 @@
         #together-timer { text-shadow: 0 0 10px rgba(255, 182, 193, 0.8); animation: pulse 2s infinite; }
         @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
         .animate-pulse-slow { animation: pulse-slow 3s infinite ease-in-out; }
-        @keyframes pulse-slow { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.03); opacity: 0.9; }}
-                               /* Hiệu ứng viền LED nhấp nháy */
-.led-border {
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    pointer-events: none;
-    z-index: 50;
-    box-shadow: inset 0 0 50px #ff4d6d, inset 0 0 100px rgba(255, 77, 109, 0.2);
-    opacity: 0;
-    transition: opacity 1s ease;
-}
-.led-active {
-    opacity: 1;
-    animation: led-pulse 1.5s infinite alternate;
-}
-@keyframes led-pulse {
-    from { box-shadow: inset 0 0 40px #ff4d6d; }
-    to { box-shadow: inset 0 0 80px #ff85a1, inset 0 0 120px rgba(255, 133, 161, 0.4); }
-}
+        @keyframes pulse-slow { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.03); opacity: 0.9; } }
+        
+        .led-border {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 50;
+            box-shadow: inset 0 0 50px #ff4d6d, inset 0 0 100px rgba(255, 77, 109, 0.2);
+            opacity: 0; transition: opacity 1s ease;
+        }
+        .led-active { opacity: 1; animation: led-pulse 1.5s infinite alternate; }
+        @keyframes led-pulse {
+            from { box-shadow: inset 0 0 40px #ff4d6d; }
+            to { box-shadow: inset 0 0 80px #ff85a1, inset 0 0 120px rgba(255, 133, 161, 0.4); }
+        }
     </style>
 </head>
 <body>
     <div id="led-effect" class="led-border"></div>
-
-    <audio id="bgMusic" loop>
-        <source src="edsherran.mp3" type="audio/mpeg">
-    </audio>
-
+    <audio id="bgMusic" loop><source src="edsherran.mp3" type="audio/mpeg"></audio>
     <div id="canvas-container"></div>
 
     <div id="app" class="flex items-center justify-center min-h-screen relative z-10 p-6 text-center">
@@ -109,21 +99,9 @@
         <div class="step glass-card p-8 max-w-2xl w-full" id="step3">
             <h2 class="text-3xl font-bold mb-8 text-pink-400">Vì sao em tuyệt vời?</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-                <div class="p-4 bg-white/5 rounded-2xl border border-white/10">
-                    <div class="text-3xl mb-2">✨</div>
-                    <h3 class="text-lg font-bold">Sự tử tế</h3>
-                    <p class="text-xs text-gray-400">Trái tim ấm áp của em luôn khiến anh tự hào.</p>
-                </div>
-                <div class="p-4 bg-white/5 rounded-2xl border border-white/10">
-                    <div class="text-3xl mb-2">😊</div>
-                    <h3 class="text-lg font-bold">Nụ cười</h3>
-                    <p class="text-xs text-gray-400">Nụ cười tỏa nắng giúp anh xua tan mọi mệt mỏi.</p>
-                </div>
-                <div class="p-4 bg-white/5 rounded-2xl border border-white/10">
-                    <div class="text-3xl mb-2">🌟</div>
-                    <h3 class="text-lg font-bold">Năng lượng</h3>
-                    <p class="text-xs text-gray-400">Sự nhiệt huyết của em truyền cảm hứng cho anh.</p>
-                </div>
+                <div class="p-4 bg-white/5 rounded-2xl border border-white/10"><div class="text-3xl mb-2">✨</div><h3 class="text-lg font-bold">Sự tử tế</h3><p class="text-xs text-gray-400">Trái tim ấm áp của em luôn khiến anh tự hào.</p></div>
+                <div class="p-4 bg-white/5 rounded-2xl border border-white/10"><div class="text-3xl mb-2">😊</div><h3 class="text-lg font-bold">Nụ cười</h3><p class="text-xs text-gray-400">Nụ cười tỏa nắng giúp anh xua tan mọi mệt mỏi.</p></div>
+                <div class="p-4 bg-white/5 rounded-2xl border border-white/10"><div class="text-3xl mb-2">🌟</div><h3 class="text-lg font-bold">Năng lượng</h3><p class="text-xs text-gray-400">Sự nhiệt huyết của em truyền cảm hứng cho anh.</p></div>
             </div>
             <button class="btn-love" id="btn-3">Một điều cuối cùng...</button>
         </div>
@@ -149,7 +127,19 @@
             <div class="mb-8 rounded-2xl overflow-hidden border-4 border-white shadow-xl">
                 <img src="melted.jpg" alt="Heart Melted" class="w-full object-cover animate-pulse-slow">
             </div>
-            <button class="btn-love" id="btn-to-final">Và anh muốn nói là... ❤️</button>
+            <button class="btn-love" id="btn-to-medical">Và anh muốn nói là... ❤️</button>
+        </div>
+
+        <div class="step glass-card p-8 max-w-md w-full text-center" id="step-medical-game">
+            <h2 class="handwritten text-3xl mb-4 text-pink-400">Emergency! 🚨</h2>
+            <p class="text-gray-300 mb-4 italic text-sm">"Tim anh tan chảy rồi đứng bóng luôn... bác sĩ cứu anh với!"</p>
+            <div class="bg-black border-2 border-green-500/50 rounded-lg p-4 mb-6 relative overflow-hidden h-32">
+                <canvas id="ecg-canvas" width="400" height="100" class="w-full h-full"></canvas>
+                <div id="status-text" class="absolute top-2 right-2 text-red-500 text-xs font-mono animate-pulse">ASYSTOLE</div>
+            </div>
+            <p id="cpr-instruction" class="text-white mb-6 font-bold">Hãy nhấn "ÉP TIM" 5 lần để hồi sinh!</p>
+            <button class="btn-love px-8 py-3" id="btn-cpr">❤️ ÉP TIM (CPR)</button>
+            <div id="cpr-progress" class="mt-4 text-pink-300 text-sm">Tiến độ: 0/5</div>
         </div>
         
         <div class="step glass-card p-10 max-w-md w-full" id="step4">
@@ -160,9 +150,7 @@
 
         <div id="rabbit-gift">
             <img src="https://media.giphy.com/media/VeMhxrpfpux7cKyQ4g/giphy.gif" alt="Cute Bunny" class="mx-auto w-40 drop-shadow-2xl">
-            <div class="bg-white text-pink-500 font-bold py-2 px-6 rounded-full shadow-2xl mt-4 inline-block border-2 border-pink-100">
-                Chocolate cho baby! 🍫
-            </div>
+            <div class="bg-white text-pink-500 font-bold py-2 px-6 rounded-full shadow-2xl mt-4 inline-block border-2 border-pink-100">Chocolate cho baby! 🍫</div>
         </div>
     </div>
 
@@ -194,7 +182,78 @@
         }
         animate();
 
-        // 2. Logic Control
+        // 2. ECG & CPR Game Logic
+        let cprCount = 0;
+        let isEcgRunning = false;
+        let xEcg = 0;
+
+        function playBeep(frequency = 880, duration = 0.1) {
+            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+            oscillator.type = 'sine';
+            oscillator.frequency.setValueAtTime(frequency, audioCtx.currentTime);
+            gainNode.gain.setValueAtTime(0.05, audioCtx.currentTime);
+            oscillator.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+            oscillator.start();
+            setTimeout(() => oscillator.stop(), duration * 1000);
+        }
+
+        function drawEcg() {
+            const canvas = document.getElementById('ecg-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const isHealthy = cprCount >= 5;
+            ctx.strokeStyle = isHealthy ? '#4ade80' : '#ef4444';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(xEcg, 50);
+
+            if (isHealthy) {
+                if (xEcg % 60 === 0) playBeep(880, 0.08); 
+                ctx.lineTo(xEcg + 5, 50); ctx.lineTo(xEcg + 10, 40); ctx.lineTo(xEcg + 15, 50);
+                ctx.lineTo(xEcg + 20, 50); ctx.lineTo(xEcg + 25, 10); ctx.lineTo(xEcg + 30, 80);
+                ctx.lineTo(xEcg + 35, 50); ctx.lineTo(xEcg + 45, 50); ctx.lineTo(xEcg + 55, 45);
+                ctx.lineTo(xEcg + 60, 50);
+                xEcg += 60;
+            } else {
+                if (xEcg % 100 === 0) playBeep(440, 0.4); 
+                ctx.lineTo(xEcg + 20, 50);
+                xEcg += 20;
+            }
+            ctx.stroke();
+            if (xEcg > canvas.width) { ctx.clearRect(0, 0, canvas.width, canvas.height); xEcg = 0; }
+        }
+
+        function startEcgAnimation() {
+            isEcgRunning = true;
+            function loop() {
+                if(!isEcgRunning) return;
+                drawEcg();
+                setTimeout(loop, 120);
+            }
+            loop();
+        }
+
+        document.getElementById('btn-cpr').onclick = () => {
+            cprCount++;
+            document.getElementById('cpr-progress').innerText = `Tiến độ: ${cprCount}/5`;
+            gsap.fromTo("#step-medical-game", { x: -5 }, { x: 5, duration: 0.05, repeat: 3, yoyo: true });
+
+            if (cprCount === 5) {
+                document.getElementById('status-text').innerText = "SINUS RHYTHM";
+                document.getElementById('status-text').className = "absolute top-2 right-2 text-green-500 text-xs font-mono";
+                document.getElementById('cpr-instruction').innerText = "Hồi sinh thành công! Anh sống lại rồi ❤️";
+                setTimeout(() => {
+                    isEcgRunning = false;
+                    showStep('step-medical-game', 'step4');
+                    startTyping();
+                }, 2500);
+            }
+        };
+
+        // 3. Logic Control
         function showStep(currentId, nextId) {
             const curr = document.getElementById(currentId);
             const next = document.getElementById(nextId);
@@ -215,7 +274,7 @@
             gsap.to("#wheel", { rotationY: 360, duration: 20, repeat: -1, ease: "none" });
         }
 
-        // 3. Event Listeners
+        // 4. Event Listeners
         document.getElementById('btn-unlock').onclick = () => {
             if(document.getElementById('passInput').value === "12012006") showStep('step0', 'step1');
             else {
@@ -224,22 +283,15 @@
             }
         };
 
-        document.getElementById('btn-1').onclick = () => { 
-            document.getElementById('bgMusic').play(); 
-            showStep('step1', 'step2'); 
-        };
+        document.getElementById('btn-1').onclick = () => { document.getElementById('bgMusic').play(); showStep('step1', 'step2'); };
         document.getElementById('btn-2').onclick = () => showStep('step2', 'step3');
         document.getElementById('btn-3').onclick = () => showStep('step3', 'step-gallery');
+        document.getElementById('btn-to-next').onclick = () => showStep('step-gallery', 'step-melted');
         
-        // Gallery -> Melted
-        document.getElementById('btn-to-next').onclick = () => {
-            showStep('step-gallery', 'step-melted');
-        };
-
-        // Melted -> Step 4
-        document.getElementById('btn-to-final').onclick = () => {
-            showStep('step-melted', 'step4');
-            startTyping();
+        // Melted -> Game
+        document.getElementById('btn-to-medical').onclick = () => {
+            showStep('step-melted', 'step-medical-game');
+            startEcgAnimation();
         };
 
         function startTyping() {
@@ -256,28 +308,18 @@
         }
 
         document.getElementById('final-btn').onclick = function() {
-            // 1. Kích hoạt đèn LED viền màn hình
             document.getElementById('led-effect').classList.add('led-active');
-
-            // 2. Pháo hoa bắn liên tục từ 2 phía (trong 15 giây)
             const duration = 15 * 1000;
             const animationEnd = Date.now() + duration;
             const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
-
             function randomInRange(min, max) { return Math.random() * (max - min) + min; }
-
             const interval = setInterval(function() {
                 const timeLeft = animationEnd - Date.now();
                 if (timeLeft <= 0) return clearInterval(interval);
-
                 const particleCount = 50 * (timeLeft / duration);
-                // Bắn từ bên trái
                 confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } });
-                // Bắn từ bên phải
                 confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } });
             }, 250);
-
-            // 3. Hiệu ứng thỏ và nút bấm
             document.getElementById('rabbit-gift').style.bottom = "15%";
             this.innerText = "YÊU EM MÃI MÃI! ❤️";
             gsap.to(this, { scale: 1.2, duration: 0.5, repeat: -1, yoyo: true });
