@@ -12,111 +12,125 @@
     
     <style>
         :root { --primary: #ff4d6d; --secondary: #ff85a1; }
-        body { margin: 0; overflow: hidden; font-family: 'Quicksand', sans-serif; background: #0a0a0a; }
+        body { margin: 0; overflow: hidden; font-family: 'Quicksand', sans-serif; background: #0a0a0a; color: #fff; }
         #canvas-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; }
         
         .glass-card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(20, 20, 20, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 30px;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
             display: none;
+            opacity: 0;
         }
         
         .glass-card.active { display: block; opacity: 1; z-index: 100; }
-        .handwritten { font-family: 'Dancing Script', cursive; font-size: 3rem; color: var(--primary); }
+        .handwritten { font-family: 'Dancing Script', cursive; color: var(--secondary); text-shadow: 0 0 15px rgba(255, 133, 161, 0.5); }
         
         .btn-love {
             background: linear-gradient(45deg, var(--primary), var(--secondary));
-            color: white; padding: 12px 35px; border-radius: 100px;
+            color: white; padding: 14px 40px; border-radius: 100px;
             font-weight: bold; text-transform: uppercase; cursor: pointer; border: none;
+            box-shadow: 0 10px 20px -5px rgba(255, 77, 109, 0.5);
+            transition: transform 0.3s ease;
         }
+        .btn-love:hover { transform: scale(1.05); }
 
         #rabbit-gift {
-            position: absolute; bottom: -200px; left: 50%;
+            position: absolute; bottom: -300px; left: 50%;
             transform: translateX(-50%); z-index: 200;
-            transition: all 1s ease-out; width: 150px;
+            transition: all 1s cubic-bezier(0.175, 0.885, 0.32, 1.275); width: 180px;
+            text-align: center;
         }
 
         input {
-            background: rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.05);
             border: 1px solid var(--secondary);
-            color: white; padding: 10px; border-radius: 10px;
+            color: white; padding: 12px; border-radius: 15px;
             text-align: center; font-size: 1.2rem; outline: none;
+        }
+
+        .reason-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 15px; border-radius: 20px;
         }
     </style>
 </head>
 <body>
 
     <audio id="bgMusic" loop>
-        <source src="https://www.bensound.com/bensound-music/bensound-cute.mp3" type="audio/mpeg">
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
     </audio>
 
     <div id="canvas-container"></div>
 
-    <div id="app" class="flex items-center justify-center h-screen relative z-10">
-        <div class="step glass-card active p-10 max-w-sm w-full text-center" id="step0">
-            <div class="emoji text-4xl mb-4">🔐</div>
-            <h2 class="text-white text-xl mb-6">Nhập Password để mở món quà...</h2>
-            <input type="password" id="passInput" placeholder="( 8 numbers hihi)" class="w-full mb-4">
-            <p id="error-msg" class="text-red-400 text-sm hidden mb-4">Sai rồi nè, thử lại đi công chúa!</p>
-            <button class="btn-love" id="btn-unlock">Mở khoá ❤️</button>
+    <div id="app" class="flex items-center justify-center h-screen relative z-10 p-4">
+        
+        <div class="step glass-card active p-8 max-w-sm w-full text-center" id="step0" style="opacity: 1;">
+            <div class="text-5xl mb-6">🔐</div>
+            <h2 class="text-white text-xl font-bold mb-6">Nhập mật mã để mở quà...</h2>
+            <input type="password" id="passInput" placeholder="8 con số nè..." class="w-full mb-4">
+            <p id="error-msg" class="text-red-400 text-sm hidden mb-4">Sai rồi nha, thử lại đi bé iu! 🌸</p>
+            <button class="btn-love w-full" id="btn-unlock">Xác nhận ❤️</button>
         </div>
 
         <div class="step glass-card p-10 max-w-md w-full text-center" id="step1">
-            <div class="handwritten mb-4">Xin chào công chúa...</div>
-            <p class="text-white/80 text-lg mb-8">Anh có một điều nhỏ bé muốn dành riêng cho em.</p>
-            <button class="btn-love" id="btn-1">Nhấn vào đi honeyy ❤️</button>
+            <div class="handwritten text-5xl mb-6">Chào công chúa...</div>
+            <p class="text-gray-300 text-lg mb-8">Hôm nay là một ngày cực kỳ đặc biệt, anh có điều này muốn nói với em.</p>
+            <button class="btn-love" id="btn-1">Xem đó là gì nhé ❤️</button>
         </div>
 
         <div class="step glass-card p-10 max-w-md w-full text-center" id="step2">
-            <h2 class="text-3xl font-bold text-white mb-6">Happy Birthday, My Everything! 🎂</h2>
-            <p class="text-white/70 mb-6">Chúc mừng sinh nhật cô gái 12/01/2006 của anh!</p>
-            <button class="btn-love" id="btn-2">Tiếp tục nào ✨</button>
+            <h2 class="text-4xl font-bold text-white mb-6">Happy Birthday! 🎂</h2>
+            <p class="text-pink-300 text-xl font-medium mb-4">Cô gái 12/01/2006</p>
+            <p class="text-gray-400 mb-8 italic">"Cảm ơn em vì đã là một phần tuyệt vời nhất trong cuộc đời anh."</p>
+            <button class="btn-love" id="btn-2">Tiếp tục ✨</button>
         </div>
 
-     Step 3: Reasons You're Amazing -->
-            <div class="step" id="step3">
-                <h2 class="text-3xl md:text-4xl font-bold mb-8 text-gradient">Here's why you're incredible</h2>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-                    <div class="reason-card">
-                        <div class="emoji text-3xl">✨</div>
-                        <h3 class="text-xl font-bold mb-2 text-pink-600">Your Kindness</h3>
-                        <p class="text-gray-700">The way you care about others is truly inspiring. You have the biggest
-                            heart.</p>
-                    </div>
-                    <div class="reason-card">
-                        <div class="emoji text-3xl">😊</div>
-                        <h3 class="text-xl font-bold mb-2 text-pink-600">Your Smile</h3>
-                        <p class="text-gray-700">It lights up every room you enter and stays in my mind all day.</p>
-                    </div>
-                    <div class="reason-card">
-                        <div class="emoji text-3xl">🌟</div>
-                        <h3 class="text-xl font-bold mb-2 text-pink-600">Your Spirit</h3>
-                        <p class="text-gray-700">Your passion and energy are contagious. You make life exciting!</p>
-                    </div>
+        <div class="step glass-card p-8 max-w-2xl w-full text-center" id="step3">
+            <h2 class="text-3xl font-bold mb-8 text-pink-400">Vì sao em tuyệt vời?</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+                <div class="reason-card">
+                    <div class="text-3xl mb-2">✨</div>
+                    <h3 class="text-lg font-bold text-white">Sự tử tế</h3>
+                    <p class="text-sm text-gray-400">Trái tim ấm áp của em luôn khiến anh tự hào.</p>
                 </div>
-                <button class="btn" id="next-btn-3">A Little Surprise</button>
+                <div class="reason-card">
+                    <div class="text-3xl mb-2">😊</div>
+                    <h3 class="text-lg font-bold text-white">Nụ cười</h3>
+                    <p class="text-sm text-gray-400">Nụ cười tỏa nắng giúp anh xua tan mọi mệt mỏi.</p>
+                </div>
+                <div class="reason-card">
+                    <div class="text-3xl mb-2">🌟</div>
+                    <h3 class="text-lg font-bold text-white">Năng lượng</h3>
+                    <p class="text-sm text-gray-400">Sự nhiệt huyết của em truyền cảm hứng cho anh.</p>
+                </div>
             </div>
-        <div class="step glass-card p-10 max-w-md w-full text-center" id="step4">
-            <div class="handwritten mb-6">Gửi tới người anh thương...</div>
-            <div id="typing-text" class="text-white text-xl leading-loose min-h-[120px]"></div>
-            <button class="btn-love mt-8" id="final-btn" style="display: none;">Yêu em mãi mãi! ❤️</button>
+            <button class="btn-love" id="btn-3">Một điều cuối cùng...</button>
         </div>
 
-       <div id="rabbit-gift">
-    <img 
-        id="rabbit-img"
-        src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExMmc1bmZqbmZqbmZqbmZqbmZqbmZqbmZqbmZqbmZqbmZqbmZqJmVwPXYxX2ludGVybmFsX2dpZl9ieV9pZCZjdD1z/Lp90U7qU7iI51KvlV4/giphy.gif" 
-        alt="Rabbit with chocolate"
-        onerror="this.src='https://cdn-icons-png.flaticon.com/512/2663/2663067.png'"
-    >
-    <p class="text-pink-400 font-bold text-center mt-2 bg-white/80 rounded-lg p-2 shadow-lg">Socola tặng em! 🍫</p>
-</div>
+        <div class="step glass-card p-10 max-w-md w-full text-center" id="step4">
+            <div class="handwritten text-4xl mb-6">Gửi em...</div>
+            <div id="typing-text" class="text-white text-xl leading-relaxed min-h-[100px]"></div>
+            <button class="btn-love mt-8" id="final-btn" style="display: none;">Nhận quà nè! ❤️</button>
+        </div>
+
+        <div id="rabbit-gift">
+            <img id="rabbit-img" 
+                 src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExOHpueXNqZTN0M2Y0ZHBrZHBueXNqZTN0M2Y0ZHBrZHBueXNqZTN0MyZlcD12MTFfaW50ZXJuYWxfZ2lmX2J5X2lkJmN0PXM/U69C45Y738Tf0464mF/giphy.gif" 
+                 alt="Cute Bunny" 
+                 class="mx-auto"
+                 style="width: 150px;">
+            <div class="bg-white text-pink-500 font-bold py-2 px-4 rounded-full shadow-lg mt-2 inline-block">
+                Socola cho bé! 🍫
+            </div>
+        </div>
+    </div>
 
     <script>
-        // 1. Three.js Background (Trái tim bay)
+        // Background Heart Animation
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
         const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
@@ -127,9 +141,10 @@
         const heartShape = new THREE.Shape();
         heartShape.moveTo(0,0); heartShape.bezierCurveTo(0,0,-1,1,-2,1); heartShape.bezierCurveTo(-4,1,-4,-1.5,-4,-1.5);
         heartShape.bezierCurveTo(-4,-3,-2,-5,0,-7); heartShape.bezierCurveTo(2,-5,4,-3,4,-1.5); heartShape.bezierCurveTo(4,-1.5,4,1,2,1);
+        
         const hearts = [];
-        for(let i=0; i<35; i++){
-            const mesh = new THREE.Mesh(new THREE.ShapeGeometry(heartShape), new THREE.MeshBasicMaterial({ color: 0xff4d6d, transparent: true, opacity: 0.4 }));
+        for(let i=0; i<30; i++){
+            const mesh = new THREE.Mesh(new THREE.ShapeGeometry(heartShape), new THREE.MeshBasicMaterial({ color: 0xff4d6d, transparent: true, opacity: 0.3 }));
             mesh.position.set(Math.random()*80-40, Math.random()*80-40, Math.random()*40-20);
             mesh.rotation.z = Math.PI; mesh.scale.set(0.4, 0.4, 0.4);
             scene.add(mesh); hearts.push(mesh);
@@ -142,66 +157,45 @@
         }
         animate();
 
-        // 2. Logic chính
+        // Main Logic
         function showStep(currentId, nextId) {
             const curr = document.getElementById(currentId);
             const next = document.getElementById(nextId);
             gsap.to(curr, { opacity: 0, scale: 0.8, duration: 0.5, onComplete: () => {
-                curr.style.display = 'none';
-                next.style.display = 'block';
+                curr.classList.remove('active');
+                next.classList.add('active');
                 gsap.fromTo(next, { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.8 });
             }});
         }
 
-        // Check Password
         document.getElementById('btn-unlock').onclick = () => {
-            const pass = document.getElementById('passInput').value;
-            if(pass === "12012006") {
-                showStep('step0', 'step1');
-            } else {
+            if(document.getElementById('passInput').value === "12012006") showStep('step0', 'step1');
+            else {
                 document.getElementById('error-msg').classList.remove('hidden');
                 gsap.fromTo("#step0", { x: -10 }, { x: 10, duration: 0.1, repeat: 5, yoyo: true });
             }
         };
 
-        // Điều hướng
-        document.getElementById('btn-1').onclick = () => {
-            document.getElementById('bgMusic').play();
-            showStep('step1', 'step2');
-        };
+        document.getElementById('btn-1').onclick = () => { document.getElementById('bgMusic').play(); showStep('step1', 'step2'); };
         document.getElementById('btn-2').onclick = () => showStep('step2', 'step3');
         document.getElementById('btn-3').onclick = () => { showStep('step3', 'step4'); startTyping(); };
 
-        // Typing Effect
         function startTyping() {
-            const msgs = ["Chúc mừng sinh nhật tình yêu của anh! ❤️", "Cảm ơn em vì đã đến...", "Anh sẽ luôn ở đây bên cạnh em."];
+            const msgs = ["Chúc mừng sinh nhật em! ❤️", "Cảm ơn em vì đã đến bên anh...", "Anh sẽ luôn yêu thương và bảo vệ em."];
             let l = 0, c = 0; const t = document.getElementById('typing-text');
             function type() {
                 if(l < msgs.length) {
                     if(c < msgs[l].length) { t.innerHTML += msgs[l].charAt(c); c++; setTimeout(type, 60); }
                     else { t.innerHTML += "<br>"; l++; c=0; setTimeout(type, 700); }
-                } else {
-                    document.getElementById('final-btn').style.display = 'inline-block';
-                }
+                } else { document.getElementById('final-btn').style.display = 'inline-block'; }
             }
             type();
         }
 
-        // 3. KẾT THÚC: Thỏ tặng quà
         document.getElementById('final-btn').onclick = function() {
-            // Hiệu ứng pháo hoa
-            const end = Date.now() + 5000;
-            (function frame() {
-                confetti({ particleCount: 3, angle: 60, spread: 55, origin: { x: 0 }, shapes: ['heart'] });
-                confetti({ particleCount: 3, angle: 120, spread: 55, origin: { x: 1 }, shapes: ['heart'] });
-                if (Date.now() < end) requestAnimationFrame(frame);
-            }());
-
-            // Thỏ xuất hiện
-            const rabbit = document.getElementById('rabbit-gift');
-            rabbit.style.bottom = "10%";
-            
-            this.innerText = "CHÚC MỪNG SINH NHẬT EM! ❤️";
+            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, shapes: ['heart'], colors: ['#ff4d6d', '#ff85a1'] });
+            document.getElementById('rabbit-gift').style.bottom = "15%";
+            this.innerText = "YÊU EM RẤT NHIỀU! ❤️";
             gsap.to(this, { scale: 1.1, repeat: -1, yoyo: true });
         };
     </script>
