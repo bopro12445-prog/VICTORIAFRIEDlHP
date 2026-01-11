@@ -145,6 +145,14 @@
     <div class="carousel-view mb-8">
         <div class="carousel-wheel" id="wheel">
             <div class="carousel-item"><img src="em1.jpg"></div>
+            <div class="step glass-card p-10 max-w-md w-full text-center" id="step-melted">
+            <h2 class="handwritten text-4xl mb-6 text-pink-400">Awwwwwwww...</h2>
+            <p class="text-white text-2xl mb-6 italic">"My heart melted completely"</p>
+            <div class="mb-8 rounded-2xl overflow-hidden border-4 border-white shadow-xl">
+                <img src="melted.jpg" alt="Heart Melted" class="w-full object-cover animate-pulse-slow">
+            </div>
+            <button class="btn-love" id="btn-to-final">Điều cuối cùng... ❤️</button>
+        </div>
             <div class="carousel-item"><img src="em2.jpg"></div>
             <div class="carousel-item"><img src="em3.jpg"></div>
             <div class="carousel-item"><img src="em4.jpg"></div>
@@ -240,8 +248,13 @@
         document.getElementById('btn-3').onclick = () => showStep('step3', 'step-gallery');
 
         // Nút ở Gallery ảnh dẫn đến Step 4 (Typing)
+        // Từ Gallery chuyển sang slide Tan chảy
         document.getElementById('btn-to-next').onclick = () => {
-            showStep('step-gallery', 'step4');
+            showStep('step-gallery', 'step-melted');
+        };
+        // Từ slide Tan chảy chuyển sang Lời chúc cuối (Step 4)
+        document.getElementById('btn-to-final').onclick = () => {
+            showStep('step-melted', 'step4');
             startTyping();
         };
 
