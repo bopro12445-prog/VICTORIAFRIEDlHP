@@ -58,7 +58,7 @@
     <div id="app" class="flex items-center justify-center h-screen relative z-10">
         <div class="step glass-card active p-10 max-w-sm w-full text-center" id="step0">
             <div class="emoji text-4xl mb-4">🔐</div>
-            <h2 class="text-white text-xl mb-6">Nhập mã bí mật để mở món quà...</h2>
+            <h2 class="text-white text-xl mb-6">Nhập Password để mở món quà...</h2>
             <input type="password" id="passInput" placeholder="Ngày sinh (8 chữ số)" class="w-full mb-4">
             <p id="error-msg" class="text-red-400 text-sm hidden mb-4">Sai rồi nè, thử lại đi công chúa!</p>
             <button class="btn-love" id="btn-unlock">Mở khoá ❤️</button>
@@ -67,7 +67,7 @@
         <div class="step glass-card p-10 max-w-md w-full text-center" id="step1">
             <div class="handwritten mb-4">Xin chào công chúa...</div>
             <p class="text-white/80 text-lg mb-8">Anh có một điều nhỏ bé muốn dành riêng cho em.</p>
-            <button class="btn-love" id="btn-1">Khám phá ngay ❤️</button>
+            <button class="btn-love" id="btn-1">Nhấn vào đi honeyy ❤️</button>
         </div>
 
         <div class="step glass-card p-10 max-w-md w-full text-center" id="step2">
@@ -76,15 +76,29 @@
             <button class="btn-love" id="btn-2">Tiếp tục nào ✨</button>
         </div>
 
-        <div class="step glass-card p-10 max-w-md w-full text-center" id="step3">
-            <h2 class="text-2xl font-bold text-white mb-8 italic">Điều gì khiến em đặc biệt?</h2>
-            <div class="grid grid-cols-2 gap-4 text-white">
-                <div class="p-4 bg-white/5 rounded-2xl border border-white/10">💖 Dịu dàng</div>
-                <div class="p-4 bg-white/5 rounded-2xl border border-white/10">😊 Nụ cười</div>
+     Step 3: Reasons You're Amazing -->
+            <div class="step" id="step3">
+                <h2 class="text-3xl md:text-4xl font-bold mb-8 text-gradient">Here's why you're incredible</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+                    <div class="reason-card">
+                        <div class="emoji text-3xl">✨</div>
+                        <h3 class="text-xl font-bold mb-2 text-pink-600">Your Kindness</h3>
+                        <p class="text-gray-700">The way you care about others is truly inspiring. You have the biggest
+                            heart.</p>
+                    </div>
+                    <div class="reason-card">
+                        <div class="emoji text-3xl">😊</div>
+                        <h3 class="text-xl font-bold mb-2 text-pink-600">Your Smile</h3>
+                        <p class="text-gray-700">It lights up every room you enter and stays in my mind all day.</p>
+                    </div>
+                    <div class="reason-card">
+                        <div class="emoji text-3xl">🌟</div>
+                        <h3 class="text-xl font-bold mb-2 text-pink-600">Your Spirit</h3>
+                        <p class="text-gray-700">Your passion and energy are contagious. You make life exciting!</p>
+                    </div>
+                </div>
+                <button class="btn" id="next-btn-3">A Little Surprise</button>
             </div>
-            <button class="btn-love mt-8" id="btn-3">Bất ngờ cuối... 🎁</button>
-        </div>
-
         <div class="step glass-card p-10 max-w-md w-full text-center" id="step4">
             <div class="handwritten mb-6">Gửi tới người anh thương...</div>
             <div id="typing-text" class="text-white text-xl leading-loose min-h-[120px]"></div>
