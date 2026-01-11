@@ -77,6 +77,14 @@
     height: 100%; 
     object-fit: cover; 
 }
+        #together-timer {
+    text-shadow: 0 0 10px rgba(255, 182, 193, 0.8);
+    animation: pulse 2s infinite;
+}
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
     </style>
 </head>
 <body>
@@ -143,6 +151,7 @@
             <div class="carousel-item"><img src="em5.jpg"></div>
         </div>
     </div>
+            <div id="together-timer" class="handwritten text-2xl mt-4 text-pink-200"></div>
     <button class="btn-love" id="btn-to-next">Điều cuối cùng... ❤️</button>
 </div>
         
@@ -255,6 +264,26 @@
             this.innerText = "YÊU EM RẤT NHIỀU! ❤️";
             gsap.to(this, { scale: 1.1, repeat: -1, yoyo: true });
         };
+        // Hàm tính toán ngày yêu nhau
+function updateTimer() {
+    const startDate = new Date('2024-12-31T00:00:00');
+    const now = new Date();
+    const diff = now - startDate;
+
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    const mins = Math.floor((diff / 1000 / 60) % 60);
+    const secs = Math.floor((diff / 1000) % 60);
+
+    const timerElement = document.getElementById('together-timer');
+    if (timerElement) {
+        timerElement.innerHTML = `Chúng mình đã hạnh phúc bên nhau <br> <span class="text-4xl">${days} ngày ${hours} giờ ${mins} phút ${secs} giây</span>`;
+    }
+}
+
+// Chạy đồng hồ mỗi giây
+setInterval(updateTimer, 1000);
+updateTimer(); // Chạy ngay lập tức
     </script>
 </body>
 </html>
