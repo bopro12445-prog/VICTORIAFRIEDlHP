@@ -13,10 +13,7 @@
     <style>
         :root { --primary: #ff4d6d; --secondary: #ff85a1; }
         body { margin: 0; background: #0a0a0a; color: #fff; font-family: 'Quicksand', sans-serif; overflow-x: hidden; }
-        
-        /* Background layer */
         #canvas-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none; }
-        
         .glass-card {
             background: rgba(20, 20, 20, 0.85);
             backdrop-filter: blur(15px);
@@ -25,10 +22,8 @@
             display: none;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8);
         }
-        
         .glass-card.active { display: block; }
         .handwritten { font-family: 'Dancing Script', cursive; color: var(--secondary); }
-        
         .btn-love {
             background: linear-gradient(45deg, var(--primary), var(--secondary));
             color: white; padding: 14px 40px; border-radius: 100px;
@@ -37,67 +32,41 @@
             transition: all 0.3s ease;
         }
         .btn-love:hover { transform: scale(1.05); filter: brightness(1.1); }
-
         #rabbit-gift {
             position: fixed; bottom: -400px; left: 50%;
             transform: translateX(-50%); z-index: 100;
             transition: all 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             width: 220px; text-align: center;
         }
-
         input {
             background: rgba(255, 255, 255, 0.05); border: 1px solid var(--secondary);
             color: white; padding: 12px; border-radius: 15px; text-align: center; outline: none;
         }
-        /* --- Mã bổ sung cho Slide ảnh xoay 3D --- */
-.carousel-view { 
-    perspective: 1000px; 
-    height: 300px; 
-    display: flex; 
-    justify-content: center; 
-    align-items: center; 
-}
-.carousel-wheel { 
-    width: 150px; 
-    height: 200px; 
-    position: relative; 
-    transform-style: preserve-3d; 
-}
-.carousel-item { 
-    position: absolute; 
-    width: 150px; 
-    height: 200px; 
-    border-radius: 15px; 
-    overflow: hidden; 
-    border: 2px solid var(--secondary);
-    backface-visibility: hidden;
-}
-.carousel-item img { 
-    width: 100%; 
-    height: 100%; 
-    object-fit: cover; 
-}
-        #together-timer {
-    text-shadow: 0 0 10px rgba(255, 182, 193, 0.8);
-    animation: pulse 2s infinite;
-}
-@keyframes pulse {
-    0%, 100% { transform: scale(1); }
-    50% { transform: scale(1.05); }
-}
+        .carousel-view { perspective: 1000px; height: 300px; display: flex; justify-content: center; align-items: center; }
+        .carousel-wheel { width: 150px; height: 200px; position: relative; transform-style: preserve-3d; }
+        .carousel-item { 
+            position: absolute; width: 150px; height: 200px; 
+            border-radius: 15px; overflow: hidden; border: 2px solid var(--secondary);
+            backface-visibility: hidden;
+        }
+        .carousel-item img { width: 100%; height: 100%; object-fit: cover; }
+        #together-timer { text-shadow: 0 0 10px rgba(255, 182, 193, 0.8); animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
+        .animate-pulse-slow { animation: pulse-slow 3s infinite ease-in-out; }
+        @keyframes pulse-slow { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.03); opacity: 0.9; } }
     </style>
 </head>
 <body>
 
     <audio id="bgMusic" loop>
-    <source src="edsherran.mp3" type="audio/mpeg">
-</audio>
+        <source src="edsherran.mp3" type="audio/mpeg">
+    </audio>
 
     <div id="canvas-container"></div>
 
-    <div id="app" class="flex items-center justify-center min-h-screen relative z-10 p-6">
+    <div id="app" class="flex items-center justify-center min-h-screen relative z-10 p-6 text-center">
         
-        <div class="step glass-card active p-8 max-w-sm w-full text-center" id="step0">
+        <div class="step glass-card active p-8 max-w-sm w-full" id="step0">
             <div class="text-5xl mb-6">🔐</div>
             <h2 class="text-white text-xl font-bold mb-6">Nhập mật mã để mở quà...</h2>
             <input type="password" id="passInput" placeholder="8 con số nè..." class="w-full mb-4 focus:ring-2 ring-pink-400">
@@ -105,33 +74,33 @@
             <button class="btn-love w-full" id="btn-unlock">Xác nhận ❤️</button>
         </div>
 
-        <div class="step glass-card p-10 max-w-md w-full text-center" id="step1">
+        <div class="step glass-card p-10 max-w-md w-full" id="step1">
             <div class="handwritten text-5xl mb-6">Chào công chúa...</div>
             <p class="text-gray-300 text-lg mb-8">Hôm nay là một ngày cực kỳ đặc biệt, anh có điều này muốn nói với em.</p>
             <button class="btn-love" id="btn-1">Xem đó là gì nhé ❤️</button>
         </div>
 
-        <div class="step glass-card p-10 max-w-md w-full text-center" id="step2">
+        <div class="step glass-card p-10 max-w-md w-full" id="step2">
             <h2 class="text-4xl font-bold text-white mb-6">Happy Birthday! 🎂</h2>
             <p class="text-pink-300 text-xl font-medium mb-4">Cô gái 12/01/2006</p>
             <p class="text-gray-400 mb-8 italic">"Cảm ơn em vì đã là một phần tuyệt vời nhất trong cuộc đời anh."</p>
             <button class="btn-love" id="btn-2">Tiếp tục ✨</button>
         </div>
 
-        <div class="step glass-card p-8 max-w-2xl w-full text-center" id="step3">
+        <div class="step glass-card p-8 max-w-2xl w-full" id="step3">
             <h2 class="text-3xl font-bold mb-8 text-pink-400">Vì sao em tuyệt vời?</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-                <div class="p-4 bg-white/5 rounded-2xl border border-white/10 hover:bg-white/10 transition-colors">
+                <div class="p-4 bg-white/5 rounded-2xl border border-white/10">
                     <div class="text-3xl mb-2">✨</div>
                     <h3 class="text-lg font-bold">Sự tử tế</h3>
                     <p class="text-xs text-gray-400">Trái tim ấm áp của em luôn khiến anh tự hào.</p>
                 </div>
-                <div class="p-4 bg-white/5 rounded-2xl border border-white/10 hover:bg-white/10 transition-colors">
+                <div class="p-4 bg-white/5 rounded-2xl border border-white/10">
                     <div class="text-3xl mb-2">😊</div>
                     <h3 class="text-lg font-bold">Nụ cười</h3>
                     <p class="text-xs text-gray-400">Nụ cười tỏa nắng giúp anh xua tan mọi mệt mỏi.</p>
                 </div>
-                <div class="p-4 bg-white/5 rounded-2xl border border-white/10 hover:bg-white/10 transition-colors">
+                <div class="p-4 bg-white/5 rounded-2xl border border-white/10">
                     <div class="text-3xl mb-2">🌟</div>
                     <h3 class="text-lg font-bold">Năng lượng</h3>
                     <p class="text-xs text-gray-400">Sự nhiệt huyết của em truyền cảm hứng cho anh.</p>
@@ -140,38 +109,38 @@
             <button class="btn-love" id="btn-3">Một điều cuối cùng...</button>
         </div>
 
-        <div class="step glass-card p-8 max-w-2xl w-full text-center" id="step-gallery">
-    <h2 class="handwritten text-4xl mb-6 text-pink-300">Vẻ đẹp của em...</h2>
-    <div class="carousel-view mb-8">
-        <div class="carousel-wheel" id="wheel">
-            <div class="carousel-item"><img src="em1.jpg"></div>
-            <div class="step glass-card p-10 max-w-md w-full text-center" id="step-melted">
+        <div class="step glass-card p-8 max-w-2xl w-full" id="step-gallery">
+            <h2 class="handwritten text-4xl mb-6 text-pink-300">Vẻ đẹp của em...</h2>
+            <div class="carousel-view mb-8">
+                <div class="carousel-wheel" id="wheel">
+                    <div class="carousel-item"><img src="em1.jpg"></div>
+                    <div class="carousel-item"><img src="em2.jpg"></div>
+                    <div class="carousel-item"><img src="em3.jpg"></div>
+                    <div class="carousel-item"><img src="em4.jpg"></div>
+                    <div class="carousel-item"><img src="em5.jpg"></div>
+                </div>
+            </div>
+            <div id="together-timer" class="handwritten text-2xl mt-4 text-pink-200"></div>
+            <button class="btn-love mt-6" id="btn-to-next">Điều cuối cùng... ❤️</button>
+        </div>
+
+        <div class="step glass-card p-10 max-w-md w-full" id="step-melted">
             <h2 class="handwritten text-4xl mb-6 text-pink-400">Awwwwwwww...</h2>
             <p class="text-white text-2xl mb-6 italic">"My heart melted completely"</p>
             <div class="mb-8 rounded-2xl overflow-hidden border-4 border-white shadow-xl">
                 <img src="melted.jpg" alt="Heart Melted" class="w-full object-cover animate-pulse-slow">
             </div>
-            <button class="btn-love" id="btn-to-final">Điều cuối cùng... ❤️</button>
+            <button class="btn-love" id="btn-to-final">Và anh muốn nói là... ❤️</button>
         </div>
-            <div class="carousel-item"><img src="em2.jpg"></div>
-            <div class="carousel-item"><img src="em3.jpg"></div>
-            <div class="carousel-item"><img src="em4.jpg"></div>
-            <div class="carousel-item"><img src="em5.jpg"></div>
-        </div>
-    </div>
-            <div id="together-timer" class="handwritten text-2xl mt-4 text-pink-200"></div>
-    <button class="btn-love" id="btn-to-next">Điều cuối cùng... ❤️</button>
-</div>
         
-        <div class="step glass-card p-10 max-w-md w-full text-center" id="step4">
+        <div class="step glass-card p-10 max-w-md w-full" id="step4">
             <div class="handwritten text-4xl mb-6">Gửi em...</div>
             <div id="typing-text" class="text-white text-xl leading-relaxed min-h-[100px]"></div>
             <button class="btn-love mt-8" id="final-btn" style="display: none;">Nhận quà nè! ❤️</button>
         </div>
 
         <div id="rabbit-gift">
-            <img src="https://media.giphy.com/media/VeMhxrpfpux7cKyQ4g/giphy.gif" 
-                 alt="Cute Bunny" class="mx-auto w-40 drop-shadow-2xl">
+            <img src="https://media.giphy.com/media/VeMhxrpfpux7cKyQ4g/giphy.gif" alt="Cute Bunny" class="mx-auto w-40 drop-shadow-2xl">
             <div class="bg-white text-pink-500 font-bold py-2 px-6 rounded-full shadow-2xl mt-4 inline-block border-2 border-pink-100">
                 Chocolate cho baby! 🍫
             </div>
@@ -179,7 +148,7 @@
     </div>
 
     <script>
-        // --- 1. Background Animation (Three.js) - Giữ nguyên logic gốc ---
+        // 1. Background Animation
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
         const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
@@ -206,7 +175,7 @@
         }
         animate();
 
-        // --- 2. Logic Control (Nâng cấp hệ thần kinh cho Gallery) ---
+        // 2. Logic Control
         function showStep(currentId, nextId) {
             const curr = document.getElementById(currentId);
             const next = document.getElementById(nextId);
@@ -214,8 +183,6 @@
                 curr.classList.remove('active');
                 next.classList.add('active');
                 gsap.fromTo(next, { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 0.8 });
-                
-                // Kích hoạt xoay ảnh nếu mở slide gallery
                 if(nextId === 'step-gallery') initGallery();
             }});
         }
@@ -229,7 +196,7 @@
             gsap.to("#wheel", { rotationY: 360, duration: 20, repeat: -1, ease: "none" });
         }
 
-        // --- Điều khiển các nút bấm theo lộ trình mới ---
+        // 3. Event Listeners
         document.getElementById('btn-unlock').onclick = () => {
             if(document.getElementById('passInput').value === "12012006") showStep('step0', 'step1');
             else {
@@ -243,16 +210,14 @@
             showStep('step1', 'step2'); 
         };
         document.getElementById('btn-2').onclick = () => showStep('step2', 'step3');
-        
-        // Nút ở Step 3 dẫn đến Gallery ảnh 3D
         document.getElementById('btn-3').onclick = () => showStep('step3', 'step-gallery');
-
-        // Nút ở Gallery ảnh dẫn đến Step 4 (Typing)
-        // Từ Gallery chuyển sang slide Tan chảy
+        
+        // Gallery -> Melted
         document.getElementById('btn-to-next').onclick = () => {
             showStep('step-gallery', 'step-melted');
         };
-        // Từ slide Tan chảy chuyển sang Lời chúc cuối (Step 4)
+
+        // Melted -> Step 4
         document.getElementById('btn-to-final').onclick = () => {
             showStep('step-melted', 'step4');
             startTyping();
@@ -261,7 +226,7 @@
         function startTyping() {
             const msgs = ["Chúc mừng sinh nhật em! ❤️", "Cảm ơn em vì đã đến bên anh...", "Anh sẽ luôn yêu thương và bảo vệ em."];
             let l = 0, c = 0; const t = document.getElementById('typing-text');
-            t.innerHTML = ""; // Clear text cũ
+            t.innerHTML = "";
             function type() {
                 if(l < msgs.length) {
                     if(c < msgs[l].length) { t.innerHTML += msgs[l].charAt(c); c++; setTimeout(type, 60); }
@@ -277,26 +242,22 @@
             this.innerText = "YÊU EM RẤT NHIỀU! ❤️";
             gsap.to(this, { scale: 1.1, repeat: -1, yoyo: true });
         };
-        // Hàm tính toán ngày yêu nhau
-function updateTimer() {
-    const startDate = new Date('2024-12-31T00:00:00');
-    const now = new Date();
-    const diff = now - startDate;
 
-    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-    const mins = Math.floor((diff / 1000 / 60) % 60);
-    const secs = Math.floor((diff / 1000) % 60);
-
-    const timerElement = document.getElementById('together-timer');
-    if (timerElement) {
-        timerElement.innerHTML = `Chúng mình đã hạnh phúc bên nhau <br> <span class="text-4xl">${days} ngày ${hours} giờ ${mins} phút ${secs} giây</span>`;
-    }
-}
-
-// Chạy đồng hồ mỗi giây
-setInterval(updateTimer, 1000);
-updateTimer(); // Chạy ngay lập tức
+        function updateTimer() {
+            const startDate = new Date('2024-12-31T00:00:00');
+            const now = new Date();
+            const diff = now - startDate;
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            const mins = Math.floor((diff / 1000 / 60) % 60);
+            const secs = Math.floor((diff / 1000) % 60);
+            const timerElement = document.getElementById('together-timer');
+            if (timerElement) {
+                timerElement.innerHTML = `Chúng mình đã hạnh phúc bên nhau <br> <span class="text-4xl">${days} ngày ${hours} giờ ${mins} phút ${secs} giây</span>`;
+            }
+        }
+        setInterval(updateTimer, 1000);
+        updateTimer();
     </script>
 </body>
 </html>
