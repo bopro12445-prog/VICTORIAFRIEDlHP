@@ -53,10 +53,29 @@
         #together-timer { text-shadow: 0 0 10px rgba(255, 182, 193, 0.8); animation: pulse 2s infinite; }
         @keyframes pulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
         .animate-pulse-slow { animation: pulse-slow 3s infinite ease-in-out; }
-        @keyframes pulse-slow { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.03); opacity: 0.9; } }
+        @keyframes pulse-slow { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.03); opacity: 0.9; }}
+                               /* Hiệu ứng viền LED nhấp nháy */
+.led-border {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 50;
+    box-shadow: inset 0 0 50px #ff4d6d, inset 0 0 100px rgba(255, 77, 109, 0.2);
+    opacity: 0;
+    transition: opacity 1s ease;
+}
+.led-active {
+    opacity: 1;
+    animation: led-pulse 1.5s infinite alternate;
+}
+@keyframes led-pulse {
+    from { box-shadow: inset 0 0 40px #ff4d6d; }
+    to { box-shadow: inset 0 0 80px #ff85a1, inset 0 0 120px rgba(255, 133, 161, 0.4); }
+}
     </style>
 </head>
 <body>
+    <div id="led-effect" class="led-border"></div>
 
     <audio id="bgMusic" loop>
         <source src="edsherran.mp3" type="audio/mpeg">
@@ -237,10 +256,31 @@
         }
 
         document.getElementById('final-btn').onclick = function() {
-            confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 }, shapes: ['heart'], colors: ['#ff4d6d', '#ff85a1'] });
+            // 1. Kích hoạt đèn LED viền màn hình
+            document.getElementById('led-effect').classList.add('led-active');
+
+            // 2. Pháo hoa bắn liên tục từ 2 phía (trong 15 giây)
+            const duration = 15 * 1000;
+            const animationEnd = Date.now() + duration;
+            const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 };
+
+            function randomInRange(min, max) { return Math.random() * (max - min) + min; }
+
+            const interval = setInterval(function() {
+                const timeLeft = animationEnd - Date.now();
+                if (timeLeft <= 0) return clearInterval(interval);
+
+                const particleCount = 50 * (timeLeft / duration);
+                // Bắn từ bên trái
+                confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } });
+                // Bắn từ bên phải
+                confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } });
+            }, 250);
+
+            // 3. Hiệu ứng thỏ và nút bấm
             document.getElementById('rabbit-gift').style.bottom = "15%";
-            this.innerText = "YÊU EM RẤT NHIỀU! ❤️";
-            gsap.to(this, { scale: 1.1, repeat: -1, yoyo: true });
+            this.innerText = "YÊU EM MÃI MÃI! ❤️";
+            gsap.to(this, { scale: 1.2, duration: 0.5, repeat: -1, yoyo: true });
         };
 
         function updateTimer() {
